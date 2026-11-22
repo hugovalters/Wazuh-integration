@@ -1,0 +1,18 @@
+<!--
+  Copyright 2026 Valters Capital, SIA
+  Licensed under the Apache License, Version 2.0.
+  ValtersIT is a trademark of Valters Capital, SIA — see NOTICE.
+  Maintained by Hugo Valters
+
+  ValtersIT decoder for Wazuh.
+  Install on the Wazuh manager as /var/ossec/etc/decoders/custom_valtersit.xml
+
+  Matches the lines written by valtersit-wazuh.py:
+    valtersit: {"integration":"valtersit","event_type":"cve","vulnerability":{...},"package":{...},...}
+  and decodes everything after the "valtersit: " prefix as JSON, so nested fields become
+  vulnerability.id, vulnerability.cvss, vulnerability.severity, package.name, package.version, ...
+-->
+<decoder name="valtersit">
+  <prematch>^valtersit: </prematch>
+  <plugin_decoder offset="after_prematch">JSON_Decoder</plugin_decoder>
+</decoder>
